@@ -8,6 +8,6 @@ getLetters pass nums = map fst $
 main :: IO ()
 main = do
     pass <- putStr "Please enter your password: " >> getLine
-    nums <- putStr "please enter the nums of fields that will be not empty (separated by spaces): " >> map read <$> words <$> getLine
+    nums <- putStr "please enter the digits of the fields (separated by spaces): " >> map read <$> words <$> getLine
     putStr "letters in order: "
     putStrLn $ intersperse ',' $ getLetters pass (sort nums)
