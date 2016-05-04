@@ -1,15 +1,18 @@
-import Data.List
+import Control.Applicative
 
 main :: IO ()
 main = do
-    pass <- putStr "Please enter your password: " >> getLine
-    nums <- putStr "please enter the digits of the fields: " >> map read <$> words <$> getLine
-    let groups = foldr getSequences [] $
-                 -- so that there is no out of bounds exception
-                 map (\n -> n-1) nums where
-        getSequences new [] = [[new]]
-        getSequences new (a:as)
-            | head a - new <= 1 = (new:a):as
-            | otherwise         = [new]:a:as
-    let letters = map (\sublist -> map (\n -> pass !! n) sublist) groups
-    putStrLn $ show letters
+  putStrLn "your pass?"
+  pass <- getLine
+  putStrLn "blanks?"
+  blanks <- map (\x -> x-1) <$> map read <$> words <$> getLine
+  putStrLn $ clean pass blanks
+
+
+clean :: String -> [Int] -> String
+clean letters blanks = clean' letters blanks 0 where
+  clean' _ [] _          = ""
+  clean' [] _ _          = ""
+  clean' (firstLetter:restLetters) blanks'@(firstBlank:restBlanks) iter
+    | iter == firstBlank = firstLetter : clean' restLetters restBlanks (iter+1)
+    | otherwise          = " " ++ clean' restLetters blanks' (iter+1)
