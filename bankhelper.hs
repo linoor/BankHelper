@@ -15,4 +15,4 @@ clean letters blanks = clean' letters blanks 0 where
   clean' [] _ _          = ""
   clean' (firstLetter:restLetters) blanks'@(firstBlank:restBlanks) iter
     | iter == firstBlank = firstLetter : clean' restLetters restBlanks (iter+1)
-    | otherwise          = " " ++ clean' restLetters blanks' (iter+1)
+    | otherwise          = "_" ++ clean' restLetters blanks' (iter+1)
